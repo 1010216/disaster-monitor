@@ -120,9 +120,9 @@
 
         // 正常更新畫面
         el.innerHTML = `
-          河流：${data.name}<br>
-          水位：${data.level} m<br>
-          警戒水位：${data.alert} m
+          河流：${data.RiverName}<br>
+          水位：${data.WaterLevel} m<br>
+          更新時間：${data.RecordTime} 
         `;
       } catch (err) {
         el.innerHTML = "⚠️ 無法取得水位資料";
@@ -202,5 +202,6 @@
   </script>
 </body>
 </html>
+
 
 
