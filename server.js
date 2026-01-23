@@ -61,57 +61,47 @@ app.get("/api/weather", async (req, res) => {
 
 // === 河川水位資料 ===
 app.get("/api/waterlevel", async (req, res) => {
-  const station = req.query.station || "板橋"; // 預設測站（可自行改）
+  const station = req.query.station || "板橋";
 
   try {
-    const url = "https://fhy.wra.gov.tw/WraApi/v1/Water/RealTimeWaterLevel";
+    const url = "https://data.gov.tw/api/v2/rest/datastore/25768";
     const response = await fetch(url);
+
     if (!response.ok) {
-      throw new Error(`水利署 API 回傳錯誤狀態碼：${response.status}`);
+      throw new Error(`政府資料平台 API 錯誤：${response.status}`);
     }
 
-    const text = await response.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      throw new Error("水利署 API 回傳非 JSON：" + text.slice(0, 200));
-    }
+    const data = await response.json();
+    const records = data?.result?.records;
 
-    const records = data?.Data;
     if (!Array.isArray(records)) {
       throw new Error("水位資料格式不正確");
     }
 
-    // 找出指定測站
-    const target = records.find(item =>
-      item.StationName?.includes(station)
+    const target = records.find(r =>
+      r.stationName?.includes(station)
     );
 
     if (!target) {
       throw new Error(`找不到測站：${station}`);
     }
 
-    const waterLevelData = {
-      stationName: target.StationName,
-      river: target.RiverName,
-      waterLevel: target.WaterLevel, // 單位：公尺
-      time: target.RecordTime
-    };
-
-    res.json(waterLevelData);
+    res.json({
+      stationName: target.stationName,
+      river: target.riverName,
+      waterLevel: target.waterLevel,
+      time: target.recordTime
+    });
 
   } catch (err) {
     console.error("❌ 河川水位資料讀取失敗：", err.message);
     res.json({
       stationName: station,
-      river: "未知",
-      waterLevel: "0.00",
-      time: null,
       error: err.message
     });
   }
 });
+
 
 
 
@@ -145,6 +135,7 @@ app.get("/api/earthquake", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
