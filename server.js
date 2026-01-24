@@ -3,7 +3,8 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import fetch from "node-fetch";
-const processWaveSample = require('./eew/eewEngine')
+import processWaveSample from './eew/eewEngine.js'
+
 
 
 dotenv.config();
@@ -158,6 +159,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
