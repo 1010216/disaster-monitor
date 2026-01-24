@@ -133,7 +133,7 @@ app.get("/api/earthquake", async (req, res) => {
 });
 async function fetchEarthquake() {
   try {
-    const res = await axios.get(`https://opendata.cwa.gov.tw/api/v1/rest/datastore/E-A0015-001?Authorization=${CWA_KEY}`)
+    const res = await axios.get(`https://opendata.cwa.gov.tw/api/v1/rest/datastore/E-A0015-001?Authorization=${process.env.CWB_API_KEY}`)
 
     const quake = res.data.records.Earthquake[0]
     const mag = quake.EarthquakeInfo.EarthquakeMagnitude.MagnitudeValue
@@ -154,6 +154,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
