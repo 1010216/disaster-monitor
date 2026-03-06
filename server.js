@@ -13,13 +13,6 @@ app.use(cors());
 app.use(express.static("public"));
 const PORT = 3000;
 
-// === 模擬水位測站資料 ===
-const stations = [
-  { name: "淡水河", lat: 25.17, lng: 121.44, level: 2.3, alert: 3 },
-  { name: "基隆河", lat: 25.13, lng: 121.73, level: 1.8, alert: 2.5 },
-  { name: "大漢溪", lat: 24.95, lng: 121.35, level: 1.2, alert: 2.0 }
-];
-
 // === 氣象資料 ===
 app.get("/api/weather", async (req, res) => {
   const city = req.query.city || "新北市"; // 預設新北市
@@ -64,10 +57,10 @@ app.get("/api/weather", async (req, res) => {
 
 // === 河川水位資料 ===
 app.get("/api/waterlevel", async (req, res) => {
-  const station = req.query.station || "板橋";
+  const station = 1140H163;
 
   try {
-    const url = "https://data.gov.tw/api/v2/rest/datastore/25768";
+    const url = "https://opendata.wra.gov.tw/api/v2/73c4c3de-4045-4765-abeb-89f9f9cd5ff0?sort=_importdate%20asc&format=JSON";
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -159,6 +152,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
