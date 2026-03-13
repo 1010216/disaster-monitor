@@ -109,7 +109,7 @@
       try {
         const res = await fetch("/api/water");
         const data = await res.json();
-        document.getElementById("weather").innerHTML = `
+        document.getElementById("water").innerHTML = `
           地點：淡水河<br>
           水位：${data.waterlevel}m
         `;
@@ -270,6 +270,7 @@
 
 </body>
 </html>
+
 
 
 
