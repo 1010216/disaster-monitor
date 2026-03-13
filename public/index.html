@@ -20,7 +20,7 @@
 
   <section>
     <h2>💧 水位資料</h2>
-    <div id="waterLevel">載入中...</div>
+    <div id="water">載入中...</div>
   </section>
 
   <section>
@@ -105,13 +105,12 @@
     }
 
     // 更新水位
-   async function loadWeather() {
+   async function loadwater() {
       try {
         const res = await fetch("/api/water");
         const data = await res.json();
         document.getElementById("weather").innerHTML = `
           地點：淡水河<br>
-          時間：${data.datetime}<br>
           水位：${data.waterlevel}m
         `;
       } catch {
@@ -271,6 +270,7 @@
 
 </body>
 </html>
+
 
 
 
