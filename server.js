@@ -115,10 +115,9 @@ app.get("/api/water", async (req, res) => {
     }
 
     
-    const location = data.records?.location?.find(loc => loc.stationid.includes(station));
+    const location = data.find(loc => loc.stationid.includes(station));
     if (!location) throw new Error(`找不到測站：${station}`);
 
-    const elements = location.weatherElement || [];
     const weather = {
       locationName: location.locationName,
       datatime: location.datatime,
@@ -129,8 +128,8 @@ app.get("/api/water", async (req, res) => {
   } catch (err) {
     console.error("❌ 氣象資料讀取失敗：", err.message);
     res.json({ 
-      locationName: 淡水河,
-      datatime: 2026-03-13T15:20:00,
+      locationName: '淡水河',
+      datatime: "2026-03-13T15:20:00",
       waterlevel: 19.5 
     });
   }
@@ -190,6 +189,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
