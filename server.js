@@ -120,11 +120,10 @@ app.get("/api/water", async (req, res) => {
 
     const weather = {
       locationName: location.locationName,
-      datatime: location.datatime,
       waterlevel: location.waterlevel
     };
 
-    res.json(weather);
+    res.json(water);
   } catch (err) {
     console.error("❌ 氣象資料讀取失敗：", err.message);
     res.json({ 
@@ -189,6 +188,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
