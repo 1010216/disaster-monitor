@@ -118,14 +118,14 @@ app.get("/api/water", async (req, res) => {
     const location = data.find(loc => loc.stationid.includes(station));
     if (!location) throw new Error(`找不到測站：${station}`);
 
-    const weather = {
+    const water = {
       locationName: location.locationName,
       waterlevel: location.waterlevel
     };
 
     res.json(water);
   } catch (err) {
-    console.error("❌ 氣象資料讀取失敗：", err.message);
+    console.error("❌ 水位資料讀取失敗：", err.message);
     res.json({ 
       locationName: '淡水河',
       datatime: "2026-03-13T15:20:00",
@@ -188,6 +188,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
