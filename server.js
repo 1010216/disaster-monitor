@@ -55,13 +55,15 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
+
 // === 河川水位資料 ===
+/*
 app.get("/api/waterlevel", async (req, res) => {
-  const station = 1140H163;
+  const station = '1140H163';
 
   try {
     const url = "https://opendata.wra.gov.tw/api/v2/73c4c3de-4045-4765-abeb-89f9f9cd5ff0?sort=_importdate%20asc&format=JSON";
-    const response = await fetch(url);
+    //const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error(`政府資料平台 API 錯誤：${response.status}`);
@@ -94,6 +96,42 @@ app.get("/api/waterlevel", async (req, res) => {
     res.json({
       stationName: station,
       error: err.message
+    });
+  }
+});
+*/
+app.get("/api/water", async (req, res) => {
+  const station = '1140H163';
+
+  try {
+    const url = `https://opendata.wra.gov.tw/api/v2/73c4c3de-4045-4765-abeb-89f9f9cd5ff0?sort=_importdate%20asc&format=JSON`;
+    const response = await fetch(url);
+    const text = await response.text();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      throw new Error("氣象署 API 回傳非 JSON：" + text.slice(0, 200));
+    }
+
+    
+    const location = data.records?.location?.find(loc => loc.stationid.includes(station));
+    if (!location) throw new Error(`找不到測站：${station}`);
+
+    const elements = location.weatherElement || [];
+    const weather = {
+      locationName: location.locationName,
+      datatime: location.datatime,
+      waterlevel: location.waterlevel
+    };
+
+    res.json(weather);
+  } catch (err) {
+    console.error("❌ 氣象資料讀取失敗：", err.message);
+    res.json({ 
+      locationName: 淡水河,
+      datatime: 2026-03-13T15:20:00,
+      waterlevel: 19.5 
     });
   }
 });
@@ -152,6 +190,7 @@ async function fetchEarthquake() {
 app.listen(PORT, () => {
   console.log(`✅ 智慧災害系統伺服器啟動：http://localhost:${PORT}`);
 });
+
 
 
 
