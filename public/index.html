@@ -105,34 +105,22 @@
     }
 
     // 更新水位
-   async function loadWaterLevel() {
-      const el = document.getElementById("waterLevel");
+   async function loadWeather() {
       try {
-        // 這裡請用「淡水河流」，不是「淡水河」
-        const res = await fetch("/api/waterLevel?station=淡水河");
+        const res = await fetch("/api/water");
         const data = await res.json();
-
-        // 檢查 API 是否回傳錯誤
-        if (data.error) {
-          el.innerHTML = `⚠️ ${data.error}`;
-          return;
-        }
-
-        // 正常更新畫面
-        el.innerHTML = `
-          河流：淡水河<br>
-          水位：-0.23 m<br>
-          更新時間：2026/01/25 08:28:32
+        document.getElementById("weather").innerHTML = `
+          地點：淡水河<br>
+          時間：${data.datetime}<br>
+          水位：${data.waterlevel}m
         `;
-      } catch (err) {
-        el.innerHTML = "⚠️ 無法取得水位資料";
-        console.error("水位讀取失敗：", err);
+      } catch {
+        document.getElementById("weather").innerHTML = "⚠️ 無法取得水位資料";
       }
     }
 
-    // ⚠️ 一定要呼叫這行
-    loadWaterLevel();
 
+    
     // 更新地震
     async function loadEarthquake() {
       try {
@@ -283,6 +271,7 @@
 
 </body>
 </html>
+
 
 
 
