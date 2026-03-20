@@ -55,51 +55,6 @@ app.get("/api/weather", async (req, res) => {
   }
 });
 
-
-// === 河川水位資料 ===
-/*
-app.get("/api/waterlevel", async (req, res) => {
-  const station = '1140H163';
-
-  try {
-    const url = "https://opendata.wra.gov.tw/api/v2/73c4c3de-4045-4765-abeb-89f9f9cd5ff0?sort=_importdate%20asc&format=JSON";
-    //const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`政府資料平台 API 錯誤：${response.status}`);
-    }
-
-    const data = await response.json();
-    const records = data?.result?.records;
-
-    if (!Array.isArray(records)) {
-      throw new Error("水位資料格式不正確");
-    }
-
-    const target = records.find(r =>
-      r.stationName?.includes(station)
-    );
-
-    if (!target) {
-      throw new Error(`找不到測站：${station}`);
-    }
-
-    res.json({
-      stationName: target.stationName,
-      river: target.riverName,
-      waterLevel: target.waterLevel,
-      time: target.recordTime
-    });
-
-  } catch (err) {
-    console.error("❌ 河川水位資料讀取失敗：", err.message);
-    res.json({
-      stationName: station,
-      error: err.message
-    });
-  }
-});
-*/
 app.get("/api/water", async (req, res) => {
   const station = '1140H163';
 
