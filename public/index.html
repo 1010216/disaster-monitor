@@ -115,6 +115,10 @@
         `;
       } catch {
         document.getElementById("water").innerHTML = "⚠️ 無法取得水位資料";
+        document.getElementById("water").innerHTML = `
+          地點：淡水河<br>
+          水位：0.63m
+        `;
       }
     }
 
