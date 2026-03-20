@@ -183,6 +183,7 @@
     async function loadAll() {
       await Promise.all([loadWeather(), loadwater(), loadEarthquake(), loadDisasters()]);
     }
+    
 
     // 初始化
     initMap();
@@ -191,6 +192,16 @@
     document.getElementById('locationBtn').addEventListener('click', getUserLocation);
 
   </script>
+    <button onclick="doSomething()">點我更新</button>
+  <p id="result"></p>
+
+  <script>
+    function doSomething() {
+    async function loadAll() {
+      await Promise.all([loadWeather(), loadwater(), loadEarthquake(), loadDisasters()]);
+    } }
+  </script>
+
   <!-- 全螢幕 EEW 警報 -->
 <div id="eewAlertFull" style="
   display:none;
