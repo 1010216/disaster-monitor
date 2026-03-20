@@ -270,7 +270,16 @@
     clearInterval(timerFull)
   })
 </script>
-
+<script>
+  // 每 5000 毫秒（即 5 秒）執行一次 alert
+  setInterval(function() {
+    //console.log("此指令每 5 秒執行一次");
+    // 同步更新所有資料
+    async function loadAll() {
+      await Promise.all([loadWeather(), loadwater(), loadEarthquake(), loadDisasters()]);
+    }
+  }, 60000);
+</script>
 
 </body>
 </html>
